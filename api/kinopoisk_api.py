@@ -5,7 +5,7 @@ from urllib.parse import quote
 
 headers = {
     "accept": "application/json",
-    "X-API-KEY": "K3SEGRJ-KYZM8H8-HKG0PX2-R9D5ZE2"
+    "X-API-KEY": os.getenv("KINOPOISK_API_KEY")
 }
 
 def get_random_movie():
