@@ -95,14 +95,10 @@ paths:
                   poster_url:
                     type: string
   /send_recommendation_opinion:
-    post:
-      summary: Send recommendation opinion
-      x-yc-apigateway-integration:
-        type: http
-        http_method: POST
-        url: https://functions.yandexcloud.net/d4e74lmbpc9rak5376t4
-        headers:
-          X-Request-Path: "send_recommendation_opinion"
+    put:
+      summary: Отправить мнение о фильме
+      description: Этот запрос позволяет пользователю обновить своё мнение о фильме в рамках сеанса.
+      operationId: updateOpinion
       requestBody:
         required: true
         content:
@@ -112,15 +108,24 @@ paths:
               properties:
                 chat_id:
                   type: string
-                session_id:
-                  type: string
+                  description: Уникальный идентификатор чата пользователя
                 film_id:
                   type: string
+                  description: Уникальный идентификатор фильма
+                session_id:
+                  type: string
+                  description: Уникальный идентификатор сеанса
                 opinion:
-                  type: boolean
+                  type: string
+                  description: Мнение о фильме (например, "понравился", "не понравился", "хороший фильм" и т.д.)
+              required:
+                - chat_id
+                - film_id
+                - session_id
+                - opinion
       responses:
         '200':
-          description: Successful response
+          description: Успешное обновление мнения
           content:
             application/json:
               schema:
@@ -128,10 +133,33 @@ paths:
                 properties:
                   chat_id_1:
                     type: string
+                    description: Идентификатор чата первого пользователя в сеансе
                   chat_id_2:
                     type: string
-                  status:
+                    description: Идентификатор чата второго пользователя в сеансе
+                  match:
+                    type: boolean
+                    description: Признак совпадения мнений (true/false)
+        '400':
+          description: Ошибка в запросе (отсутствуют необходимые параметры)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
                     type: string
+                    description: Сообщение об ошибке
+        '500':
+          description: Внутренняя ошибка сервера
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Сообщение об ошибке
   /add_favorite:
     post:
       summary: Add film to favorites
