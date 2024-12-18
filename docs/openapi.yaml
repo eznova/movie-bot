@@ -7,7 +7,7 @@ servers:
 paths:
   /create_session:
     post:
-      summary: Create a session
+      summary: Создать сеанс
       x-yc-apigateway-integration:
         type: http
         http_method: POST
@@ -27,7 +27,7 @@ paths:
                   type: string
       responses:
         '200':
-          description: Successful response
+          description: Успешный ответ
           content:
             application/json:
               schema:
@@ -37,7 +37,7 @@ paths:
                     type: string
   /approve_session:
     post:
-      summary: Approve a session
+      summary: Подтвердить сеанс
       x-yc-apigateway-integration:
         type: http
         http_method: POST
@@ -59,7 +59,7 @@ paths:
                   type: string
       responses:
         '200':
-          description: Successful response
+          description: Успешный ответ
           content:
             application/json:
               schema:
@@ -71,7 +71,7 @@ paths:
                     type: string
   /get_recommendation:
     get:
-      summary: Get a movie recommendation
+      summary: Получить рекомендацию фильма
       x-yc-apigateway-integration:
         type: http
         http_method: GET
@@ -80,7 +80,7 @@ paths:
           X-Request-Path: "get_recommendation"
       responses:
         '200':
-          description: Successful response
+          description: Успешный ответ
           content:
             application/json:
               schema:
@@ -162,7 +162,7 @@ paths:
                     description: Сообщение об ошибке
   /add_favorite:
     post:
-      summary: Add film to favorites
+      summary: Добавить фильм в избранное
       x-yc-apigateway-integration:
         type: http
         http_method: POST
@@ -188,10 +188,10 @@ paths:
                   type: string
       responses:
         '200':
-          description: Successful response
+          description: Успешный ответ
   /get_favorites:
     get:
-      summary: Get favorite films
+      summary: Получить фильмы из избранного
       x-yc-apigateway-integration:
         type: http
         http_method: GET
@@ -206,7 +206,7 @@ paths:
             type: string
       responses:
         '200':
-          description: Successful response
+          description: Успешный ответ
           content:
             application/json:
               schema:
@@ -225,7 +225,7 @@ paths:
                           type: string
   /check_match:
     get:
-      summary: Check if there is a match
+      summary: Проверить совпадение мнений
       x-yc-apigateway-integration:
         type: http
         http_method: GET
@@ -245,7 +245,7 @@ paths:
             type: string
       responses:
         '200':
-          description: Successful response
+          description: Успешный ответ
           content:
             application/json:
               schema:
@@ -255,7 +255,7 @@ paths:
                     type: boolean
   /get_movies_by_description:
     get:
-      summary: Get titles by description
+      summary: Получить фильмы по описанию
       x-yc-apigateway-integration:
         type: http
         http_method: GET
@@ -270,7 +270,7 @@ paths:
             type: string
       responses:
         '200':
-          description: Successful response
+          description: Успешный ответ
           content:
             application/json:
               schema:
@@ -280,7 +280,7 @@ paths:
                     type: string
   /get_random_movie_by_genre:
     get:
-      summary: Get a movie recommendation by genre
+      summary: Получить рекомендацию фильма по жанру
       x-yc-apigateway-integration:
         type: http
         http_method: GET
@@ -295,7 +295,7 @@ paths:
             type: string
       responses:
         '200':
-          description: Successful response
+          description: Успешный ответ
           content:
             application/json:
               schema:
@@ -311,7 +311,7 @@ paths:
                     type: string
   /get_rating:
     get:
-      summary: Get user rating by chat id
+      summary: Получить рейтинг пользователя по chat_id
       x-yc-apigateway-integration:
         type: http
         http_method: GET
@@ -326,7 +326,7 @@ paths:
             type: string
       responses:
         '200':
-          description: Successful response
+          description: Успешный ответ
           content:
             application/json:
               schema:
@@ -336,7 +336,7 @@ paths:
                     type: string
   /send_rating:
     post:
-      summary: Send rating for film_id and chat_id
+      summary: Отправить рейтинг для film_id и chat_id
       x-yc-apigateway-integration:
         type: http
         http_method: POST
@@ -360,4 +360,4 @@ paths:
                   type: string
       responses:
         '200':
-          description: Successful response
+          description: Успешный ответ
