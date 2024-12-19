@@ -104,6 +104,9 @@ CREATE TABLE movie_ratings (
 - **Таблица `favorites_films`**: Связана с пользователем через поле `chat_id` и хранит информацию о фильмах, которые были добавлены в избранное пользователем.
 - **Таблица `movie_ratings`**: Хранит рейтинги фильмов, выставленные пользователями. Связана с пользователем через `chat_id` и с фильмом через `film_id`.
 
+
+![ERD](https://www.plantuml.com/plantuml/png/hPB1IiGm48RlVOgXLzcBtdfQ1P45wOBklOHjLWDDicIcAzBwxgR6eNPeq8Dxss_oJxwPT8ka0lMsAxGZG-zGMdynka6DQBp34XJ24i5GGFnTVVzlJ0iLF1-UTlL3AXnV5KNQ-3UdGwpjwiFDTIfzeSOfgpEP7cKaajL45ASUP_XHY17ysRZennFCvDS1JgQpah8xzwZWRhz_lB-jsNAjzbFgf2u-6DBOJEtJOWM3OR4CtaDMYgdS3lDMup6OCoMdt9w28kDUaj22_ADEwiWT9WVnJOtZPkD7yKuLbFCRbPc8t64C9U5SGWmfpy_NJyV7OUs2D3m7kDLV0bljsjvsdm00)
+
 ---
 
 ## Примечания:
