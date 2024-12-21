@@ -8,7 +8,7 @@ import random
 driver_config = ydb.DriverConfig(
     endpoint=os.getenv('YDB_ENDPOINT'), 
     database=os.getenv('YDB_DATABASE'),
-    credentials=ydb.iam.MetadataUrlCredentials(),
+    credentials=ydb.iam.MetadataUrlCredentials()
 )
 
 driver = ydb.Driver(driver_config)

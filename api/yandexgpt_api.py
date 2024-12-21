@@ -7,8 +7,14 @@ folder_id = os.getenv('FOLDER_ID')
 api_key = os.getenv('API_KEY')
 
 def get_yandexGPT_search_result(film_description):
+    """
+    Запрашивает результаты по фильму через Yandex GPT API.
+
+    :param film_description: Описание фильма, по которому нужно получить результаты.
+    :return: Основной текст ответа с предложениями по фильмам.
+    """
     prompt = {
-        "modelUri": f"gpt://{folder_id}/yandexgpt-lite",  # Форматируем строку с использованием f-строк
+        "modelUri": f"gpt://{folder_id}/yandexgpt-lite",  # Формируем строку с использованием f-строк
         "completionOptions": {
             "stream": False,
             "temperature": 0.6,
@@ -17,7 +23,7 @@ def get_yandexGPT_search_result(film_description):
         "messages": [
             {
                 "role": "system",
-                "text": "Ты ассистент который помогает с подбором того что посмотреть, выдвавй 5 тайтлов с описанием чтобы я мог выбрать"
+                "text": "Ты ассистент который помогает с подбором того что посмотреть, выдвай 5 тайтлов с описанием чтобы я мог выбрать"
             },
             {
                 "role": "user",

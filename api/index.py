@@ -8,23 +8,35 @@ from films import add_film_to_favorites, get_favorites, set_film_rating, get_my_
 from yandexgpt_api import get_yandexGPT_search_result
 
 def handler(event, context):
+    """
+    Обработчик HTTP-запросов, выполняющий различные действия в зависимости от пути и метода запроса.
+
+    :param event: Данные запроса, включая метод, путь и тело
+    :param context: Контекст выполнения функции (не используется напрямую в коде)
+    :return: Ответ в формате JSON с кодом состояния и данными
+    """
+
+    # Получаем HTTP метод и путь запроса
     http_method = event.get('httpMethod')
     path = event.get('headers', {}).get('X-Request-Path', 'Unknown path')
     body_raw = event.get('body', '')
 
     try:
+        # Декодируем тело запроса, если оно закодировано в base64
         if event.get('isBase64Encoded', False):
             body_decoded = base64.b64decode(body_raw).decode('utf-8')
             body = json.loads(body_decoded)
         else:
             body = json.loads(body_raw)
     except (json.JSONDecodeError, base64.binascii.Error):
+        # Обработка ошибок при декодировании тела запроса
         return {
             'statusCode': 400,
             'headers': {'Content-Type': 'application/json'},
             'body': json.dumps({'error': 'Invalid JSON or Base64 in request body'})
         }
 
+    # Обработка создания сессии
     if path == 'create_session' and http_method == 'POST':
         chat_id = body.get('chat_id')
         user_name = body.get('user_name')
@@ -37,10 +49,7 @@ def handler(event, context):
             }
 
         try:
-            session_id = create_session(
-                chat_id=chat_id,
-                owner_name=user_name
-            )
+            session_id = create_session(chat_id=chat_id, owner_name=user_name)
             return {
                 'statusCode': 200,
                 'headers': {'Content-Type': 'application/json'},
@@ -53,6 +62,7 @@ def handler(event, context):
                 'body': json.dumps({'error': str(e)})
             }
 
+    # Обработка запроса на присоединение к сессии
     elif path == 'approve_session' and http_method == 'POST':
         chat_id = body.get('chat_id')
         user_name = body.get('user_name')
@@ -66,11 +76,7 @@ def handler(event, context):
             }
 
         try:
-            owner = join_session(
-                chat_id=chat_id,
-                name=user_name,
-                session_id=session_id
-            )
+            owner = join_session(chat_id=chat_id, name=user_name, session_id=session_id)
             return {
                 'statusCode': 200,
                 'headers': {'Content-Type': 'application/json'},
@@ -83,6 +89,7 @@ def handler(event, context):
                 'body': json.dumps({'error': str(e)})
             }
 
+    # Обработка запроса на получение случайного фильма
     elif path == 'get_recommendation' and http_method == 'GET':
         random_movie = get_random_movie()
         return {
@@ -91,6 +98,7 @@ def handler(event, context):
             'body': random_movie
         }
 
+    # Обработка отправки мнения о фильме
     elif path == 'send_recommendation_opinion' and http_method == 'POST':
         chat_id = body.get('chat_id')
         film_id = body.get('film_id')
@@ -104,12 +112,7 @@ def handler(event, context):
                 'body': json.dumps({'error': 'Missing required parameters: chat_id, user_name, session_id, opinion'})
             }
 
-        update_opinion(
-            session_id,
-            film_id,
-            chat_id,
-            opinion
-        )
+        update_opinion(session_id, film_id, chat_id, opinion)
 
         result = check_match(session_id, film_id)
         chats_ids = get_chat_ids(session_id)
@@ -120,8 +123,8 @@ def handler(event, context):
             'body': {'chat_id_1': chats_ids['chat_id_1'], 'chat_id_2': chats_ids['chat_id_2'], 'match': result}
         }
 
+    # Обработка запроса на проверку совпадения мнений
     elif path == 'check_match' and http_method == 'GET':
-        # Проверка на совпадение
         session_id = event.get('queryStringParameters', {}).get('session_id')
         film_id = event.get('queryStringParameters', {}).get('film_id')
         match = True if session_id and film_id else False
@@ -131,6 +134,7 @@ def handler(event, context):
             'body': json.dumps({'match': match})
         }
     
+    # Обработка добавления фильма в избранное
     elif path == 'add_favorite' and http_method == 'POST':
         chat_id = body.get('chat_id')
         film_id = body.get('film_id')
@@ -141,6 +145,7 @@ def handler(event, context):
 
         return {'statusCode': 200}
 
+    # Обработка запроса на получение списка избранных фильмов
     elif path == 'get_favorites' and http_method == 'GET': 
         chat_id = body.get('chat_id')
 
@@ -152,6 +157,7 @@ def handler(event, context):
             'body': {"result": result}
         }
 
+    # Обработка запроса на поиск фильмов по описанию
     elif path == 'get_movies_by_description' and http_method == 'GET':
         description = body.get('description')
 
@@ -163,6 +169,7 @@ def handler(event, context):
             'body': {"result": result}
         }
     
+    # Обработка запроса на получение случайного фильма по жанру
     elif path == 'get_random_movie_by_genre' and http_method == 'GET': 
         genre = body.get('genre')
         random_movie = get_random_movie_by_genre(genre)
@@ -172,6 +179,7 @@ def handler(event, context):
             'body': random_movie
         }
 
+    # Обработка отправки рейтинга фильма
     elif path == 'send_rating' and http_method == 'POST':
         chat_id = body.get('chat_id')
         film_id = body.get('film_id')
@@ -182,6 +190,7 @@ def handler(event, context):
 
         return {'statusCode': 200}
 
+    # Обработка запроса на получение рейтинга фильмов
     elif path == 'get_rating' and http_method == 'GET':
         chat_id = body.get('chat_id')
 
@@ -193,9 +202,9 @@ def handler(event, context):
             'body': {"result": result}
         }
 
+    # Обработка случая, когда метод не поддерживается
     return {
         'statusCode': 405,
         'headers': {'Content-Type': 'application/json'},
         'body': json.dumps({'error': 'Method Not Allowed'})
     }
-
