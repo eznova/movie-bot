@@ -18,7 +18,18 @@ def create_settings_menu():
     return json.dumps(
         {
             "inline_keyboard": [
-                [{"text": "Выбрать время", "callback_data": "exact_time"}],
+                [{"text": "Включить нотификации", "callback_data": "enable_notif"}],
+                [{"text": "Периодичность", "callback_data": "frequency"}],
+                [{"text": "Назад", "callback_data": "back_to_menu"}]
+            ]
+        }
+    )
+
+def create_settings_menu_disable():
+    return json.dumps(
+        {
+            "inline_keyboard": [
+                [{"text": "Отключить нотификации", "callback_data": "disable_notif"}],
                 [{"text": "Периодичность", "callback_data": "frequency"}],
                 [{"text": "Назад", "callback_data": "back_to_menu"}]
             ]
@@ -81,12 +92,23 @@ def create_collection_menu():
         }
     )
 
+def create_frequency_menu():
+    return json.dumps(
+        {
+            "inline_keyboard": [
+                [{"text": "Ежечасно", "callback_data": "frequency_hourly"}],
+                [{"text": "Ежедневно", "callback_data": "frequency_daily"}],
+                [{"text": "Назад", "callback_data": "back_to_menu"}]
+            ]
+        }
+    )
+
 def create_tinder_menu():
     return json.dumps(
         {
             "inline_keyboard": [
                 [{"text": "Лайк", "callback_data": "movie_like"}],
-                [{"text": "Дизалйк", "callback_data": "movie_dislike"}]
+                [{"text": "Дизлайк", "callback_data": "movie_dislike"}]
             ]
         }
     )

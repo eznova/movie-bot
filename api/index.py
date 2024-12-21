@@ -91,7 +91,7 @@ def handler(event, context):
             'body': random_movie
         }
 
-    elif path == 'send_recommendation_opinion' and http_method == 'PUT':
+    elif path == 'send_recommendation_opinion' and http_method == 'POST':
         chat_id = body.get('chat_id')
         film_id = body.get('film_id')
         session_id = body.get('session_id')
